@@ -29,7 +29,7 @@ const Distance = () => {
 
   //lets set the postion of first box at 10,10,0
   boxmesh.position.set(10, 10, 0);
-  boxmesh2.position.set(-10, -3, 0);
+  boxmesh2.position.set(-10, 8, 0);
   //lets calculate the distance from box1 to box2
   // to calculate distance we use euclidean methon where we take points
   //(0,0,0)-(10,10,0)
@@ -45,7 +45,7 @@ const Distance = () => {
   console.log(distance);
 
   //find the magnitude of the vector and find the unitVector magnitute
-
+  //the perfect circle is called as eucledian distance
   const lineGeometry = new THREE.BufferGeometry().setFromPoints([
     boxmesh.position,
     boxmesh2.position,
@@ -101,6 +101,46 @@ const Distance = () => {
     "red"
   );
   scene.add(normalizedArrow);
+
+  //subtracting adding and multipication box1 and box2 and getting position
+  const box3 = new THREE.BoxGeometry(1,1,1)
+  const box3material = new THREE.MeshBasicMaterial({color:'pink'})
+  const box3mesh = new THREE.Mesh(box3,box3material)
+  const newPostionbysubb1b2=boxmesh.position.clone().sub(boxmesh2.position.clone())
+  // box3mesh.position.set(newPostionbysubb1b2.x,newPostionbysubb1b2.y,newPostionbysubb1b2.z)
+  scene.add(box3mesh)
+
+
+
+//dot product why it is required
+// Dot Product Calculation
+// This formula computes the dot product of two 2D position vectors (boxmesh.position and boxmesh2.position).
+// If the vectors point in the same direction, the dot product is positive.
+// If they are perpendicular, the dot product is zero.
+// If they are opposite, the dot product is negative.
+const dotProduct = (boxmesh.position.x * boxmesh2.position.x) + (boxmesh.position.y * boxmesh2.position.y)
+console.log(dotProduct)
+box3mesh.position.multiplyScalar(dotProduct)
+
+//scalar projection when we notmalize the dot product and 
+// Scalar Projection and Normalization
+// A scalar projection is when we normalize one vector and then project another onto it: 
+// If we normalize boxmesh2.position before taking the dot product:
+
+const normalizedB = boxmesh2.position.clone().normalize();
+const scalarProjection = boxmesh.position.dot(normalizedB);
+console.log(scalarProjection)
+// This projects boxmesh onto boxmesh2 along its unit direction.
+// Useful for:
+// Finding the alignment of vectors.
+// Determining how much one object moves along another’s direction.
+// When Do We Need This?
+// Physics and Motion → Calculating force or movement in a specific direction.
+// Lighting & Shading → Dot product is used in Phong shading to determine brightness based on the light direction.
+// Collision Detection → Checking how much one object's velocity aligns with another's direction.
+// Projection & Scaling → Helps in vector decomposition, mapping motion onto an axis.
+// Let me know if you need more clarity! 🚀
+
 
   React.useEffect(() => {
     function animate() {
