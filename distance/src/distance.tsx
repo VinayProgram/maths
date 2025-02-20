@@ -120,7 +120,7 @@ const Distance = () => {
 // If they are opposite, the dot product is negative.
 const dotProduct = (boxmesh.position.x * boxmesh2.position.x) + (boxmesh.position.y * boxmesh2.position.y)
 console.log(dotProduct)
-box3mesh.position.multiplyScalar(dotProduct)
+  // box3mesh.position.multiplyScalar(dotProduct)
 
 //scalar projection when we notmalize the dot product and 
 // Scalar Projection and Normalization
@@ -130,6 +130,7 @@ box3mesh.position.multiplyScalar(dotProduct)
 const normalizedB = boxmesh2.position.clone().normalize();
 const scalarProjection = boxmesh.position.dot(normalizedB);
 console.log(scalarProjection)
+box3mesh.position.multiplyScalar(scalarProjection)
 // This projects boxmesh onto boxmesh2 along its unit direction.
 // Useful for:
 // Finding the alignment of vectors.
