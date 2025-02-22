@@ -30,7 +30,7 @@ const Radial = () => {
   const distanceBetweenHumanandCube = math.distance([...humanmesh.position.toArray()],[...meshCube.position.toArray()])
   console.log(distanceBetweenHumanandCube)
 
-  if(distanceBetweenHumanandCube<=2){
+  if(Number(distanceBetweenHumanandCube)<=2){
     humanmesh.material.color.set('blue')
   }
 
