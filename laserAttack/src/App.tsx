@@ -5,11 +5,14 @@ import Bullet from './Bullet'
 
 const App = () => {
   return (
+    <>
     <Canvas style={{height:'100vh'}}>
       <Mirror/>
       <Bullet/>
       <OrbitControls/>
     </Canvas>
+    <button>shoot</button>
+    </>
   )
 }
 
