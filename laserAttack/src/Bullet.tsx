@@ -17,7 +17,7 @@ const Bullet = () => {
     }
 
     if (bulletRef?.position) {
-      bulletRef.position.addScaledVector(directionRef, 0.1);
+      bulletRef.position.addScaledVector(directionRef, 2);
     }
   });
 
@@ -27,7 +27,7 @@ const Bullet = () => {
   }, []);
 
   return (
-    <mesh ref={bulletRefo}>
+    <mesh  ref={bulletRefo}>
       <sphereGeometry args={[1, 100]} />
       <meshBasicMaterial color={"blue"} />
     </mesh>

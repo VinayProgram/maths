@@ -17,13 +17,13 @@ const Mirror = () => {
 
         const mirrorPos = mirror.position;
         const distance = bulletPos.distanceTo(mirrorPos);
-        console.log(mirrorPos,bulletPos)
-        if (distance < 3) {
+        if (distance < 7) {
           const mirrorNormal = mirror.position.clone().normalize();
           const incident = directionRef.clone().normalize();
           
           // Calculate the reflection vector
           const dot = incident.dot(mirrorNormal);
+    
           const reflection = incident.clone().sub(mirrorNormal.clone().multiplyScalar(2 * dot));
 
           // Update the bullet's direction
@@ -51,7 +51,7 @@ const Mirror = () => {
           rotation={[0, Math.PI + (i / 20) * Math.PI * 2, 0]}
         >
           <boxGeometry args={[5, 10]} />
-          <meshBasicMaterial color={"grey"} />
+          <meshBasicMaterial color={'white'}/>
         </mesh>
       ))}
     </>

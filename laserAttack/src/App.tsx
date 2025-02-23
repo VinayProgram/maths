@@ -10,6 +10,8 @@ const App = () => {
     <>
     <Canvas style={{height:'100vh'}}>
       <Mirror/>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
       <Bullet/>
       <OrbitControls/>
     </Canvas>
