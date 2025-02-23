@@ -6,9 +6,10 @@ import { useCommonStore } from "./store/commonStore";
 const Mirror = () => {
   const mirrors = React.useRef<(THREE.Mesh | null)[]>([]); // Properly initialize as an array
   const BulletRef = useCommonStore((s) => s.bulletRef);
+  const directionRef = useCommonStore((s) => s.directionRef);
 
   useFrame(() => {
-    if (BulletRef) { // Removed `&& false`
+    if (BulletRef && directionRef) {
       const bulletPos = BulletRef.position;
 
       mirrors.current.forEach((mirror, i) => {
@@ -16,9 +17,19 @@ const Mirror = () => {
 
         const mirrorPos = mirror.position;
         const distance = bulletPos.distanceTo(mirrorPos);
-
+        console.log(mirrorPos,bulletPos)
         if (distance < 3) {
-          console.log('hitted '+ i)
+          const mirrorNormal = mirror.position.clone().normalize();
+          const incident = directionRef.clone().normalize();
+          
+          // Calculate the reflection vector
+          const dot = incident.dot(mirrorNormal);
+          const reflection = incident.clone().sub(mirrorNormal.clone().multiplyScalar(2 * dot));
+
+          // Update the bullet's direction
+          directionRef.copy(reflection);
+
+          console.log(`hitted ${i}`);
         }
       });
     }
