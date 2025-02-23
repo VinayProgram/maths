@@ -3,11 +3,12 @@ import React from "react";
 import * as THREE from "three";
 import { useCommonStore } from "./store/commonStore";
 
+
 const Mirror = () => {
   const mirrors = React.useRef<(THREE.Mesh | null)[]>([]); // Properly initialize as an array
   const BulletRef = useCommonStore((s) => s.bulletRef);
   const directionRef = useCommonStore((s) => s.directionRef);
-
+  // const d= useTexture('/')
   useFrame(() => {
     if (BulletRef && directionRef) {
       const bulletPos = BulletRef.position;
@@ -17,7 +18,7 @@ const Mirror = () => {
 
         const mirrorPos = mirror.position;
         const distance = bulletPos.distanceTo(mirrorPos);
-        if (distance < 7) {
+        if (distance < 4) {
           const mirrorNormal = mirror.position.clone().normalize();
           const incident = directionRef.clone().normalize();
           
@@ -50,8 +51,8 @@ const Mirror = () => {
           ]}
           rotation={[0, Math.PI + (i / 20) * Math.PI * 2, 0]}
         >
-          <boxGeometry args={[5, 10]} />
-          <meshBasicMaterial color={'white'}/>
+        < boxGeometry args={[5, 10]} />
+         <meshStandardMaterial metalness={1} roughness={0} emissive={3} />
         </mesh>
       ))}
     </>

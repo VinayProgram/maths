@@ -1,4 +1,4 @@
-import { OrbitControls } from '@react-three/drei'
+import { Environment, OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import Mirror from './mirror'
 import Bullet from './Bullet'
@@ -9,9 +9,12 @@ const App = () => {
   return (
     <>
     <Canvas style={{height:'100vh'}}>
+      <Environment preset='night'/>
       <Mirror/>
-      <ambientLight intensity={0.5} />
+   
+      <ambientLight intensity={1} />
       <pointLight position={[10, 10, 10]} />
+      <directionalLight position={[10, 10, 10]} intensity={1} />
       <Bullet/>
       <OrbitControls/>
     </Canvas>

@@ -8,7 +8,7 @@ const Bullet = () => {
   const bulletRefo = React.useRef<Object3D>(null!);
   const directionRefo = React.useRef(new THREE.Vector3());
   const { setBulletRef, attackEvent,setDirectionRef,bulletRef,directionRef } = useCommonStore();
-
+  const lineGeomRef = React.useRef<THREE.BufferGeometry<THREE.NormalBufferAttributes>>(null!)
   useFrame((state) => {
     if (attackEvent) {
       if (directionRef.lengthSq() === 0) {
@@ -17,7 +17,12 @@ const Bullet = () => {
     }
 
     if (bulletRef?.position) {
-      bulletRef.position.addScaledVector(directionRef, 2);
+      bulletRef.position.addScaledVector(directionRef, 0.1);
+      const lineGeom = new THREE.BufferGeometry().setFromPoints([
+        bulletRef.position,
+        new THREE.Vector3(0, 0, 0),
+      ]);
+      lineGeomRef.current=lineGeom
     }
   });
 
@@ -27,10 +32,12 @@ const Bullet = () => {
   }, []);
 
   return (
-    <mesh  ref={bulletRefo}>
-      <sphereGeometry args={[1, 100]} />
-      <meshBasicMaterial color={"blue"} />
+    <>
+    <mesh ref={bulletRefo} position={[0, 0, 0]}>
+    <sphereGeometry args={[1, 100]} />
+    <meshPhysicalMaterial color="red" roughness={0} metalness={1}/>
     </mesh>
+  </>
   );
 };
 
