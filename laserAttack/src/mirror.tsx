@@ -54,7 +54,7 @@ const Mirror = () => {
           ]}
           rotation={[0, Math.PI + (i / 20) * Math.PI * 2, 0]}
         >
-          <boxGeometry args={[10, 10]} />
+          <boxGeometry args={[5, 10]} />
           <meshPhysicalMaterial metalness={1} roughness={0} emissive={3} />
         </mesh>
       ))}
