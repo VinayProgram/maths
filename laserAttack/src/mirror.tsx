@@ -14,24 +14,26 @@ const Mirror = () => {
 
       const ray = new THREE.Raycaster(
         bulletPos,
-        directionRef.clone().normalize()
+        directionRef.clone().normalize(),
+        0,
+        1
       );
+     
 
       const mirrorsArray = mirrors.current.filter((mirror) => mirror !== null);
 
       const intersects = ray.intersectObjects(mirrorsArray);
+
       if (intersects.length >= 1) {
         const mirrorNormal = intersects[0].object.position.clone().normalize();
         const incident = directionRef.clone().normalize();
         const dot = incident.dot(mirrorNormal);
-        const mirrorPos = intersects[0].object.position;
-        const distance = bulletPos.distanceTo(mirrorPos);
-        if (distance < 5) {
+       
           const reflection = incident
             .clone()
             .sub(mirrorNormal.clone().multiplyScalar(2 * dot));
           directionRef.copy(reflection);
-        }
+        
       }
     }
   });
