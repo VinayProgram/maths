@@ -13,9 +13,9 @@ const App = () => {
     <Canvas style={{height:'100vh'}}>
       <Environment preset='studio'/>
       <Mirror/>
-      <ambientLight intensity={1} />
+      <ambientLight intensity={2} />
       <pointLight position={[10, 10, 10]} />
-      <directionalLight position={[10, 10, 10]} intensity={1} />
+      <directionalLight position={[10, 10, 10]} intensity={2} />
       <Bullet/>
       <OrbitControls/>
     </Canvas>
