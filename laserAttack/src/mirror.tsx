@@ -18,7 +18,7 @@ const Mirror = () => {
 
         const mirrorPos = mirror.position;
         const distance = bulletPos.distanceTo(mirrorPos);
-        if (distance < 4) {
+        if (distance < 7) {
           const mirrorNormal = mirror.position.clone().normalize();
           const incident = directionRef.clone().normalize();
           
@@ -51,7 +51,7 @@ const Mirror = () => {
           ]}
           rotation={[0, Math.PI + (i / 20) * Math.PI * 2, 0]}
         >
-        < boxGeometry args={[5, 10]} />
+        < boxGeometry args={[5 ,10]} />
          <meshStandardMaterial metalness={1} roughness={0} emissive={3} />
         </mesh>
       ))}
