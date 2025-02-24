@@ -3,7 +3,6 @@ import React from "react";
 import * as THREE from "three";
 import { useCommonStore } from "./store/commonStore";
 
-
 const Mirror = () => {
   const mirrors = React.useRef<(THREE.Mesh | null)[]>([]); // Properly initialize as an array
   const BulletRef = useCommonStore((s) => s.bulletRef);
@@ -13,26 +12,27 @@ const Mirror = () => {
     if (BulletRef && directionRef) {
       const bulletPos = BulletRef.position;
 
-      mirrors.current.forEach((mirror, i) => {
-        if (!mirror) return;
+      const ray = new THREE.Raycaster(
+        bulletPos,
+        directionRef.clone().normalize()
+      );
 
-        const mirrorPos = mirror.position;
+      const mirrorsArray = mirrors.current.filter((mirror) => mirror !== null);
+
+      const intersects = ray.intersectObjects(mirrorsArray);
+      if (intersects.length >= 1) {
+        const mirrorNormal = intersects[0].object.position.clone().normalize();
+        const incident = directionRef.clone().normalize();
+        const dot = incident.dot(mirrorNormal);
+        const mirrorPos = intersects[0].object.position;
         const distance = bulletPos.distanceTo(mirrorPos);
-        if (distance < 7) {
-          const mirrorNormal = mirror.position.clone().normalize();
-          const incident = directionRef.clone().normalize();
-          
-          // Calculate the reflection vector
-          const dot = incident.dot(mirrorNormal);
-    
-          const reflection = incident.clone().sub(mirrorNormal.clone().multiplyScalar(2 * dot));
-
-          // Update the bullet's direction
+        if (distance < 5) {
+          const reflection = incident
+            .clone()
+            .sub(mirrorNormal.clone().multiplyScalar(2 * dot));
           directionRef.copy(reflection);
-
-          console.log(`hitted ${i}`);
         }
-      });
+      }
     }
   });
 
@@ -40,6 +40,7 @@ const Mirror = () => {
     <>
       {Array.from({ length: 20 }, (_, i) => (
         <mesh
+          name={"Mirror-" + i}
           key={i} // Always add a key in array maps
           ref={(el) => {
             if (el) mirrors.current[i] = el; // Ensure non-null before assignment
@@ -51,8 +52,8 @@ const Mirror = () => {
           ]}
           rotation={[0, Math.PI + (i / 20) * Math.PI * 2, 0]}
         >
-        < boxGeometry args={[5 ,10]} />
-         <meshStandardMaterial metalness={1} roughness={0} emissive={3} />
+          <boxGeometry args={[10, 10]} />
+          <meshStandardMaterial metalness={1} roughness={0} emissive={3} />
         </mesh>
       ))}
     </>
